@@ -1,0 +1,2 @@
+rootProject.name='OfferPlaza'
+include ':app'
