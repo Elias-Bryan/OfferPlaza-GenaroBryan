@@ -5,104 +5,106 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.PerfilFragment"
-    android:background="@drawable/fondoperfil">
+    android:layout_gravity="center"
+    android:background="@drawable/fondo_perfil">
 
     <!-- TODO: Update blank fragment layout -->
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/perfil"
-        android:layout_width="match_parent"
-        android:layout_height="208dp"
+        android:layout_width="353dp"
+        android:layout_height="155dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginRight="0dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginRight="26dp"
         android:foregroundGravity="center"
         android:src="@drawable/perfil" />
 
     <TextView
         android:id="@+id/nom_perfil"
-        android:layout_width="372dp"
-        android:layout_height="105dp"
+        android:layout_width="353dp"
+        android:layout_height="148dp"
         android:layout_below="@id/perfil"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
 
-        android:layout_marginTop="41dp"
-        android:layout_marginBottom="375dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="63dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="338dp"
         android:gravity="center"
         android:text="Bryan Bautista Gonzales"
-        android:textColor="@color/negro"
-        android:textSize="30sp"
+        android:textColor="@color/blanco"
+        android:textSize="25sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="164dp"
-        android:layout_height="wrap_content"
 
+    <TextView
+        android:layout_width="184dp"
+        android:layout_height="49dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="106dp"
-        android:layout_marginRight="106dp"
-        android:layout_marginBottom="340dp"
+        android:layout_marginEnd="97dp"
+        android:layout_marginRight="97dp"
+        android:layout_marginBottom="121dp"
+        android:fontFamily="@font/nunito_bold"
         android:gravity="center"
-        android:text="92928181"
+        android:text="Celular"
         android:textColor="@color/negro"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
-    <GridLayout
-        android:id="@+id/idGrid"
-        android:layout_width="match_parent"
-        android:layout_height="325dp"
-        android:layout_alignParentTop="true"
+    <TextView
+        android:id="@+id/correo_perfil"
+        android:layout_width="184dp"
+        android:layout_height="49dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="410dp"
-        android:layout_marginBottom="0dp"
-        android:padding="4dp">
+        android:layout_marginEnd="99dp"
+        android:layout_marginRight="99dp"
+        android:layout_marginBottom="77dp"
+        android:gravity="center"
+        android:text="92928181"
+        android:textColor="@color/gray"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardFavoritos"
-            android:layout_width="92dp"
-            android:layout_height="108dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="16dp"
+    <TextView
+        android:layout_width="352dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="9dp"
+        android:layout_marginRight="9dp"
+        android:layout_marginBottom="236dp"
+        android:fontFamily="@font/nunito_bold"
+        android:gravity="center"
+        android:text="Correo Electronico"
+        android:textColor="@color/negro"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="10dp"
-            app:cardCornerRadius="8dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/favoritos" />
-
-                <TextView
-                    android:layout_width="109dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Favoritos"
-                    android:textAlignment="center"
-                    android:textColor="#ffcc00"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-
-        </androidx.cardview.widget.CardView>
-
-
-    </GridLayout>
+    <TextView
+        android:id="@+id/celular_perfil"
+        android:layout_width="352dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginBottom="201dp"
+        android:fontFamily="@font/nunito_light"
+        android:gravity="center"
+        android:text="92928181"
+        android:textColor="@color/gray"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

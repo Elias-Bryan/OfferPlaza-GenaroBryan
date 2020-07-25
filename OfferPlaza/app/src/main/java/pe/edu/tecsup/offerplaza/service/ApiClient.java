@@ -10,7 +10,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static String API_BASE_URL ="https://offerplaza.herokuapp.com/";
+    private static String API_BASE_URL ="http://192.168.1.2:8080/v1/cliente/";
     private static Retrofit retrofit;
     private static Gson gson;
 
@@ -32,13 +32,12 @@ public class ApiClient {
 
         }
         return retrofit;
-
     }
-
     public static  InterfaceClient getInterfaceClient(){
         InterfaceClient interfaceClient = getRetrofitInstance().create(InterfaceClient.class);
         return interfaceClient;
     }
+
  /*   private static Retrofit gerRetrofit(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://offerplaza.herokuapp.com/")

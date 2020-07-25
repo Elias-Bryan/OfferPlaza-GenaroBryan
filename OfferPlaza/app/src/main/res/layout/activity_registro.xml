@@ -41,14 +41,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:inputType="textPersonName"
-        android:hint="nombre"
+        android:hint="nombres y apellidos completos"
         android:layout_weight="7"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:padding="10dp"
         android:drawableLeft="@drawable/name"
         android:layout_marginBottom="15dp"
-        android:textSize="20dp"
+        android:textSize="15dp"
 
         android:drawablePadding="10dp"
         android:background="@drawable/edt_style"
@@ -65,7 +65,7 @@
         android:padding="10dp"
         android:drawableLeft="@drawable/ic_person"
         android:layout_marginBottom="15dp"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:drawablePadding="10dp"
         android:background="@drawable/edt_style"
         />
@@ -86,7 +86,7 @@
         android:inputType="textPersonName"
 
         android:padding="10dp"
-        android:textSize="20dp" />
+        android:textSize="15dp" />
 
     <EditText
         android:id="@+id/reg_phone"
@@ -102,7 +102,7 @@
         android:padding="1dp"
         android:drawableLeft="@drawable/phone"
         android:layout_marginBottom="15dp"
-        android:textSize="20dp"
+        android:textSize="15dp"
 
         android:drawablePadding="10dp"
         android:background="@drawable/edt_style"
@@ -114,7 +114,7 @@
         android:layout_height="0dp"
         android:ems="10"
         android:inputType="textPassword"
-        android:textSize="20dp"
+        android:textSize="15dp"
 
         android:hint="Contraseña"
         android:layout_weight="7"
@@ -127,25 +127,6 @@
         android:background="@drawable/edt_style"
         android:layout_marginBottom="15dp"
         />
-    <EditText
-        android:id="@+id/conf_password"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:textSize="20dp"
-
-        android:hint="Confirmar Contraseña"
-        android:layout_weight="7"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:drawableLeft="@drawable/candado"
-
-        android:drawablePadding="10dp"
-        android:padding="10dp"
-        android:background="@drawable/edt_style"
-        android:layout_marginBottom="20dp"
-        />
 
     <Button
         android:id="@+id/btn_registro"
@@ -157,7 +138,7 @@
         android:layout_weight="6"
         android:background="@drawable/btn_style"
         android:fontFamily="@font/nunito_bold"
-        android:onClick="agregar_reg"
+
         android:text="Crear cuenta"
         android:textColor="@color/blanco" />
 

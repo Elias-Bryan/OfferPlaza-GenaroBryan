@@ -2,38 +2,33 @@ package pe.edu.tecsup.offerplaza.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
+import java.util.Objects;
 
 import pe.edu.tecsup.offerplaza.R;
-import pe.edu.tecsup.offerplaza.models.EmpresaResponse;
+import pe.edu.tecsup.offerplaza.models.LoginRequest;
+import pe.edu.tecsup.offerplaza.models.LoginResponse;
+import pe.edu.tecsup.offerplaza.models.UserRequest;
+import pe.edu.tecsup.offerplaza.models.UserResponse;
 import pe.edu.tecsup.offerplaza.service.ApiClient;
-import pe.edu.tecsup.offerplaza.service.InterfaceClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
-
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity{
 
     TextView tv_registrar;
-    private Button btn_login;
+    Button btn_login;
     private EditText dniTxt, passTxt;
-    private String dni,password;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,44 +41,73 @@ public class LoginActivity extends AppCompatActivity {
                 LoginActivity.this.startActivity(intentReg);
             }
         });
-        btn_login = findViewById(R.id.btn_Login);
+
         dniTxt = findViewById(R.id.tv_user);
         passTxt = findViewById(R.id.tv_password);
-
-
-
-        /*Call<List<EmpresaResponse>> empresaList = ApiClient.getUserClient().getAllEmpresa();
-        empresaList.enqueue(new Callback<List<EmpresaResponse>>() {
+        btn_login=findViewById(R.id.btn_Login);
+        btn_login.setOnClickListener(new View.OnClickListener(){
             @Override
-           public void onResponse(Call<List<EmpresaResponse>> call, Response<List<EmpresaResponse>> response) {
-                if(response.isSuccessful()){
-                    Log.e("succes",response.body().toString());
+            public void onClick(View view){
+                userLogin(createRequest());
+            }
+        });
+
+        /*btn_login.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                if (validar())
+                {
+                    dni = dniTxt.getText().toString();
+                    password = passTxt.getText().toString();
+
+                }
+            }
+        });*/
+    }
+    public LoginRequest createRequest(){
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setDni(dniTxt.getText().toString());
+        loginRequest.setPassword(passTxt.getText().toString());
+        return loginRequest;
+    }
+    public void userLogin(LoginRequest loginRequest){
+        Call<LoginResponse> loginResponseCall = ApiClient.getInterfaceClient().userLogin(loginRequest);
+        loginResponseCall.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if(Objects.equals("0",response.body().getErrorCode() )){
+                    final String Nombre=response.body().getUsuario().getNombres();
+                    final int Id=response.body().getUsuario().getIdcliente();
+                    final String Correo=response.body().getUsuario().getCelular();
+                    final String Celular=response.body().getUsuario().getCorreo();
+                    final String Dni = dniTxt.getText().toString();
+                    saveIdSharedPreference(Id);
+                    saveNombreSharedPreference(Nombre);
+                    saveCorreoSharedPreference(Correo);
+                    saveCelularSharedPreference(Celular);
+                    if (validar())
+                    {
+                        String nombre = getNombreSharedPreference("nombre");
+
+                        Toast.makeText(LoginActivity.this,"Bienvenido "+nombre,Toast.LENGTH_LONG).show();
+                        Intent intentReg= new Intent(LoginActivity.this, Home.class);
+                        LoginActivity.this.startActivity(intentReg);
+                    }
+                }else{
+                    Toast.makeText(LoginActivity.this,"Ingrese bien sus credenciales",Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-         public void onFailure(Call<List<EmpresaResponse>> call, Throwable t) {
-                Log.e("failure",t.getLocalizedMessage());
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Toast.makeText(LoginActivity.this,"Saved successs"+t.getLocalizedMessage(),Toast.LENGTH_LONG).show();
 
-            }});*/
+            }
+        });
     }
-    public void agregar(View v)
-    {
-        if (validar())
-        {
-            btn_login.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View view){
-                    dni = dniTxt.getText().toString();
-                    password = passTxt.getText().toString();
-                    String authToken = createAuthToken(dni,password);
-                    checkLoginDeatils(authToken);
-                    Intent intentReg= new Intent(LoginActivity.this, Home.class);
-                    LoginActivity.this.startActivity(intentReg);
-                }
-            });
-        }
-    }
+
+
+
     public boolean validar()
     {
         boolean retorno=true;
@@ -102,8 +126,41 @@ public class LoginActivity extends AppCompatActivity {
 
         return retorno;
     }
+    private void saveNombreSharedPreference(String Nombre){
+        //(Esto se usa si se si hiciera en un fragment)SharedPreferences sharedPref =getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("nombre_preferences",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("nombre",Nombre);
+        editor.apply();
+    }
+    private void saveIdSharedPreference(int Id){
+        //(Esto se usa si se si hiciera en un fragment)SharedPreferences sharedPref =getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("id_preferences",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("id",Id);
+        editor.apply();
+    }
+    private void saveCorreoSharedPreference(String Correo){
+        //(Esto se usa si se si hiciera en un fragment)SharedPreferences sharedPref =getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("correo_preferences",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("correo",Correo);
+        editor.apply();
+    }
+    private void saveCelularSharedPreference(String Celular){
+        //(Esto se usa si se si hiciera en un fragment)SharedPreferences sharedPref =getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("celular_preferences",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("celular",Celular);
+        editor.apply();
+    }
+    private String getNombreSharedPreference(String key){
+        SharedPreferences sharedPref = getSharedPreferences("nombre_preferences",Context.MODE_PRIVATE);
+        return sharedPref.getString(key,"");
+    }
 
-    private void checkLoginDeatils(String authToken) {
+
+    /*private void checkLoginDeatils(String authToken) {
         Retrofit retrofit = ApiClient.getRetrofitInstance();
         final InterfaceClient api = retrofit.create(InterfaceClient.class);
 
@@ -113,12 +170,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()){
                     if(response.body().matches("success")){
-
-                        Toast.makeText(getApplicationContext(), "login exitoso",Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this,"Saved succeslll",Toast.LENGTH_LONG).show();
                 }
 
                 else{
-                        Toast.makeText(getApplicationContext(), "error",Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this,"error",Toast.LENGTH_LONG).show();
                     }
                     //handle
                 }
@@ -126,14 +182,15 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(LoginActivity.this,"Esta mal la conexion"+t.getLocalizedMessage(),Toast.LENGTH_LONG).show();
                 Log.e("TAG", t.toString());
                 t.printStackTrace();
 
             }
         });
-    }
+    }*/
 
-    private String createAuthToken(String dni, String password) {
+    /*private String createAuthToken(String dni, String password) {
         byte[] data= new byte[0];
         try {
             data = (dni + ":" + password).getBytes("UTF-8");
@@ -146,6 +203,40 @@ public class LoginActivity extends AppCompatActivity {
     public void btn_forgot (View view){
         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://codinginflow.com/tutorials/android/bottomnavigationview"));
         startActivity(i);
-    }
+    }*/
+    /*public void userLogin(){
+
+        String dni = dniTxt.getText().toString().trim();
+        String password = passTxt.getText().toString().trim();
+        if (dni.isEmpty()){
+            dniTxt.setError("Email is requerid");
+            dniTxt.requestFocus();
+            return;
+        }
+        if(password.isEmpty()){
+            passTxt.setError("password Requerid");
+            passTxt.requestFocus();
+            return;
+        }
+
+        Call<LoginResponse> call = ApiClient.getInterfaceClient().userLogin(dni,password);
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                LoginResponse loginResponse = response.body();
+                if(loginResponse.getError() == "0"){
+                    Toast.makeText(LoginActivity.this,"Login exitoso",Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(LoginActivity.this,"login faild",Toast.LENGTH_LONG).show();
+                }
+
+                }
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Toast.makeText(LoginActivity.this,"conexion failed"+t.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+
+            }
+        });
+*/
 
 }

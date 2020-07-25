@@ -91,7 +91,7 @@ tools:context=".activities.LoginActivity">
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:gravity="center"
-        android:onClick="btn_forgot"
+
         android:text="¿Olvidaste tu contraseña?"
         android:textColor="@color/colorPrimary" />
 
@@ -106,7 +106,6 @@ tools:context=".activities.LoginActivity">
         android:layout_weight="6"
         android:background="@drawable/btn_style"
         android:fontFamily="@font/nunito_bold"
-        android:onClick="agregar"
         android:text="Ingresar"
         android:textColor="@color/blanco" />
 

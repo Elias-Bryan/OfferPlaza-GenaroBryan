@@ -1,26 +1,31 @@
 package pe.edu.tecsup.offerplaza.fragments;
 
-import android.content.Intent;
-import android.net.Uri;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import pe.edu.tecsup.offerplaza.R;
-import pe.edu.tecsup.offerplaza.adapters.RecyclerViewProductoAdaptador;
-import pe.edu.tecsup.offerplaza.models.ProductoModelo;
+import pe.edu.tecsup.offerplaza.adapters.ProductoAdapter;
+import pe.edu.tecsup.offerplaza.adapters.TiendaAdapter;
+import pe.edu.tecsup.offerplaza.models.RetroEmpresa;
+import pe.edu.tecsup.offerplaza.models.RetroProducto;
+import pe.edu.tecsup.offerplaza.service.ApiClient;
+import pe.edu.tecsup.offerplaza.service.InterfaceClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +33,7 @@ import pe.edu.tecsup.offerplaza.models.ProductoModelo;
  * create an instance of this fragment.
  */
 public class ProductoFragment extends Fragment {
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -36,12 +42,10 @@ public class ProductoFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private RecyclerView recyclerViewProducto;
-    private RecyclerViewProductoAdaptador adaptadorProducto;
-    private EditText editText;
 
-
-    public List<ProductoModelo> obtenerProductos;
+    private ProductoAdapter adapter;
+    private RecyclerView recyclerView;
+    ProgressDialog progressDialog;
 
     public ProductoFragment() {
         // Required empty public constructor
@@ -53,7 +57,7 @@ public class ProductoFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ProductosFragment.
+     * @return A new instance of fragment ProductoFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static ProductoFragment newInstance(String param1, String param2) {
@@ -77,34 +81,44 @@ public class ProductoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View vista=inflater.inflate(R.layout.fragment_producto, container, false);
-        editText=(EditText)vista.findViewById(R.id.p_busqueda);
+        int idcliente = getIdSharedPreference("id");
+        InterfaceClient service = ApiClient.getRetrofitInstance().create(InterfaceClient.class);
+        Call<List<RetroProducto>> call = service.getAllProductos(idcliente);
 
-        List<ProductoModelo> productoLista;
-        recyclerViewProducto=(RecyclerView)vista.findViewById(R.id.recyclerProducto);
-        recyclerViewProducto.setLayoutManager(new LinearLayoutManager(getContext()));
-        obtenerProductos();
-        adaptadorProducto=new RecyclerViewProductoAdaptador(obtenerProductos());
-        recyclerViewProducto.setAdapter(adaptadorProducto);
+        call.enqueue(new Callback<List<RetroProducto>>() {
+                         @Override
+                         public void onResponse(Call<List<RetroProducto>> call, Response<List<RetroProducto>> response) {
+
+                             generateList(response.body());
+
+                         }
+
+                         @Override
+                         public void onFailure(Call<List<RetroProducto>> call, Throwable t) {
+                             Toast.makeText(getActivity(), "Falló la conexión"+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                         }
+                     }
+        );
+        /*List<TiendaModelo> tienda=new ArrayList<>();
+        recyclerViewTienda=(RecyclerView)vista.findViewById(R.id.recyclerTienda);
+        recyclerViewTienda.setLayoutManager(new LinearLayoutManager(getContext()));
+        obtenerTienda();
+        adaptadorTienda=new RecyclerViewTiendaAdaptador(obtenerTienda());
+        recyclerViewTienda.setAdapter(adaptadorTienda);*/
+
 
         return vista;
     }
-
-    public List<ProductoModelo> obtenerProductos(){
-        List<ProductoModelo> producto=new ArrayList<>();
-        producto.add(new ProductoModelo("Leche ","Lima","130","S/4.20",R.drawable.pilsen));
-        producto.add(new ProductoModelo("Redbull","Centro","100","S/6.20",R.drawable.redbull));
-        producto.add(new ProductoModelo("Panes","Surquillo","200","S/3.40",R.drawable.panes));
-        producto.add(new ProductoModelo("Yogurt","Lima","300","S/5.50",R.drawable.yogurt));
-        producto.add(new ProductoModelo("leche","Centro","130","S/4.20",R.drawable.leche));
-        producto.add(new ProductoModelo("Redbull","Callao","300","S/4.20",R.drawable.redbull));
-
-        return producto;
+    private void generateList(List<RetroProducto> photoList) {
+        recyclerView = getActivity().findViewById(R.id.recyclerProducto);
+        adapter = new ProductoAdapter(getActivity(), photoList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
-
-    public void btn_adquirir (View view){
-        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://developer.android.com/jetpack/androidx/releases/gridlayout?hl=es"));
-        startActivity(i);
+    private int getIdSharedPreference(String key){
+        SharedPreferences sharedPref =getActivity().getSharedPreferences("id_preferences", Context.MODE_PRIVATE);
+        return sharedPref.getInt(key,100);
     }
 }

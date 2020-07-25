@@ -1,3 +1,4 @@
+/*
 package pe.edu.tecsup.offerplaza.adapters;
 
 import android.content.Context;
@@ -76,4 +77,4 @@ public class empresasAdapter extends RecyclerView.Adapter<empresasAdapter.empres
             imgEmpresa = mView.findViewById(R.id.imgEmpresa);
         }
     }
-}
+}*/

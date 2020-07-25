@@ -6,16 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/grisacio"
     tools:context=".activities.Empresa">
-
-    <Button
-        android:id="@+id/btn_Productos"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="17dp"
-        android:layout_marginRight="17dp" />
-
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,6 +54,4 @@
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginBottom="0dp" />
-
-
 </RelativeLayout>

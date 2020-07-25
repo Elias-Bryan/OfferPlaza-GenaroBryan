@@ -2,6 +2,8 @@ package pe.edu.tecsup.offerplaza.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SearchRecentSuggestionsProvider;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
@@ -10,9 +12,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import pe.edu.tecsup.offerplaza.R;
+import pe.edu.tecsup.offerplaza.activities.LoginActivity;
 import pe.edu.tecsup.offerplaza.interfaces.IComunicaFragments;
 
 /**
@@ -30,10 +35,15 @@ public class PerfilFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+
+    private TextView p_nombre,p_correo,p_celular;
     View vista;
     Activity actividad;
     CardView cardFavoritos;
     IComunicaFragments interfaceComunicaFragments;
+
+
+
 
 
     public PerfilFragment() {
@@ -82,14 +92,38 @@ public class PerfilFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         vista=inflater.inflate(R.layout.fragment_perfil, container, false);
-        cardFavoritos=vista.findViewById(R.id.cardFavoritos);
-        cardFavoritos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                interfaceComunicaFragments.favoritos();
 
-            }
-        });
+        p_nombre=(TextView) vista.findViewById(R.id.nom_perfil);
+        p_celular=(TextView) vista.findViewById(R.id.celular_perfil);
+        p_correo=(TextView) vista.findViewById(R.id.correo_perfil);
+        p_nombre.setText(getNombreSharedPreference("nombre"));
+        p_correo.setText(getCorreoSharedPreference("correo"));
+        p_celular.setText(getCelularSharedPreference("celular"));
+
+
+
+
         return vista;
     }
+
+
+    /*private String getNombrepSharedPreference(String key){
+        SharedPreferences sharedPref =getActivity().getSharedPreferences("nombrep_preference",Context.MODE_PRIVATE);
+        return sharedPref.getString(key,"");
+    }*/
+    private String getNombreSharedPreference(String key){
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("nombre_preferences",Context.MODE_PRIVATE);
+        return sharedPref.getString(key,"");
+    }
+    private String getCorreoSharedPreference(String key){
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("correo_preferences",Context.MODE_PRIVATE);
+        return sharedPref.getString(key,"");
+    }
+    private String getCelularSharedPreference(String key){
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("celular_preferences",Context.MODE_PRIVATE);
+        return sharedPref.getString(key,"");
+    }
+
+
+
 }

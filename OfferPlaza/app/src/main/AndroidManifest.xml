@@ -11,16 +11,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.Home"></activity>
+        <activity android:name=".Categorias.Categoria1"/>
+        <activity android:name=".Categorias.Categoria2"/>
+        <activity android:name=".Categorias.Categoria3"/>
+        <activity android:name=".Categorias.Categoria4"/>
+        <activity android:name=".Categorias.Categoria5"/>
+        <activity android:name=".Categorias.Categoria6"/>
+        <activity android:name=".Categorias.Categoria7"/>
+        <activity android:name=".Categorias.Categoria8"/>
+        <activity android:name=".Categorias.Categoria9"/>
+        <activity android:name=".Categorias.Categoria10"/>
+        <activity android:name=".Categorias.Categoria11"/>
+        <activity android:name=".Categorias.Categoria12"/>
+
+        <activity android:name=".activities.Home" />
         <activity android:name=".activities.compras" />
         <activity android:name=".activities.empresas" />
         <activity android:name=".activities.Empresa" />
         <activity android:name=".activities.toolbar" />
-        <activity
-            android:name=".activities.Productos"
-            android:parentActivityName=".activities.empresas" />
         <activity android:name=".MainActivity" />
-        <activity android:name="activities.DetalleEmpresa" />
         <activity android:name=".activities.VisorImagen" />
         <activity android:name=".activities.Registro" />
         <activity android:name=".activities.LoginActivity">

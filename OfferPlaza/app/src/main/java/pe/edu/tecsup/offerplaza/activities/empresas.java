@@ -15,7 +15,6 @@ import android.widget.Toast;
 import java.util.List;
 
 import pe.edu.tecsup.offerplaza.R;
-import pe.edu.tecsup.offerplaza.adapters.empresasAdapter;
 import pe.edu.tecsup.offerplaza.models.EmpresaModelo;
 import pe.edu.tecsup.offerplaza.models.EmpresaResponse;
 import pe.edu.tecsup.offerplaza.service.ApiClient;
@@ -25,7 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class empresas extends AppCompatActivity {
-    private empresasAdapter adapter;
+    /*private empresasAdapter adapter;
     private RecyclerView recyclerView;
     private Button btn_Productos;
     ProgressDialog progressDialog;
@@ -72,7 +71,7 @@ public class empresas extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(empresas.this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-    }
+    }*/
 }
  /* Call<List<EmpresaResponse>> empresaList = ApiClient.getUserClient().getAllEmpresa();
 
